@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "date-fns": "^2.29.3",
     "expo": "~48.0.15",
     "expo-network": "~5.2.1",
     "expo-status-bar": "~1.4.4",
