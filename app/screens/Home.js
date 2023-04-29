@@ -52,9 +52,12 @@ export default () => {
       />
 
       <ConversionInput
+        onChangeText={(text) => console.log("text", text)}
+        keyboardType="numeric"
         text="GBP"
         value="123"
         onButtonPress={() => alert("todo!")}
+        editable={false}
       />
     </View>
   );
