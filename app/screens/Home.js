@@ -10,6 +10,7 @@ import {
 import { format } from "date-fns";
 import color from "../constants/color";
 import { ConversionInput } from "../components/ConversionInput";
+import { Button } from "../components/Button";
 
 const screen = Dimensions.get("window");
 
@@ -50,7 +51,7 @@ export default () => {
   const baseCurrency = "USD";
   const quoteCurrency = "GBP";
   const conversionRate = 0.8345;
-  const date = new Date()
+  const date = new Date();
 
   return (
     <View style={style.container}>
@@ -88,8 +89,13 @@ export default () => {
       />
 
       <Text style={style.text}>
-        {`1 ${baseCurrency} = ${conversionRate} ${quoteCurrency} as ${format(date, "MMMM do, yyyy")}`}
+        {`1 ${baseCurrency} = ${conversionRate} ${quoteCurrency} as ${format(
+          date,
+          "MMMM do, yyyy"
+        )}`}
       </Text>
+
+      <Button text="Reverse Currency" onPress={() => alert("todo!")} />
     </View>
   );
 };
