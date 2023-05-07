@@ -1,6 +1,6 @@
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Alert, Linking, ScrollView } from "react-native";
+import { Alert, Linking, ScrollView, StatusBar } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import color from "../constants/color";
 import { RowItem, RowSeparator } from "../components/row";
@@ -14,6 +14,8 @@ const openUrl = (url) => {
 export default () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      <StatusBar barStyle="dark-content" backgroundColor={color.white} />
+
       <ScrollView>
         <RowItem
           onPress={() => alert("Todo!")}

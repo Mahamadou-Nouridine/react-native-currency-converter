@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   StyleSheet,
   View,
@@ -6,10 +6,11 @@ import {
   Image,
   Dimensions,
   Text,
-  ScrollView,
-  Keyboard,
+  TouchableOpacity,
 } from "react-native";
 import { format } from "date-fns";
+import { Entypo } from "@expo/vector-icons";
+import { SafeAreaView } from "react-native-safe-area-context";
 import color from "../constants/color";
 import { ConversionInput } from "../components/ConversionInput";
 import { Button } from "../components/Button";
@@ -20,7 +21,10 @@ const style = StyleSheet.create({
   container: {
     backgroundColor: color.blue,
     flex: 1,
-    justifyContent: "center",
+    // justifyContent: "center",
+  },
+  content: {
+    paddingTop: screen.height * 0.1,
   },
   logoContainer: {
     alignItems: "center",
@@ -47,34 +51,43 @@ const style = StyleSheet.create({
     fontSize: 13,
     textAlign: "center",
   },
+  header: {
+    alignItems: "flex-end",
+  },
 });
 
-export default () => {
+export default ({ navigation }) => {
   const baseCurrency = "USD";
   const quoteCurrency = "GBP";
   const conversionRate = 0.8345;
   const date = new Date();
 
-  const [scrollEnabled, setScrollEnabled]  = useState(false);
+  // const [scrollEnabled, setScrollEnabled] = useState(false);
 
-  useEffect(() => {
-    const showListener = Keyboard.addListener("keyboardDidShow", () =>
-      setScrollEnabled(true)
-    );
-    const hideListener = Keyboard.addListener("keyboardDidHide", () =>
-      setScrollEnabled(false)
-    );
+  // useEffect(() => {
+  //   const showListener = Keyboard.addListener("keyboardDidShow", () =>
+  //     setScrollEnabled(true)
+  //   );
+  //   const hideListener = Keyboard.addListener("keyboardDidHide", () =>
+  //     setScrollEnabled(false)
+  //   );
 
-    return () => {
-      showListener.remove();
-      hideListener.remove();
-    };
-  }, []);
+  //   return () => {
+  //     showListener.remove();
+  //     hideListener.remove();
+  //   };
+  // }, []);
 
   return (
     <View style={style.container}>
-      <StatusBar barStyle="light-content" />
-      <ScrollView scrollEnabled={scrollEnabled}>
+      <StatusBar barStyle="light-content" backgroundColor={color.blue} />
+      {/* <ScrollView scrollEnabled={scrollEnabled}> */}
+      <SafeAreaView style={style.header}>
+        <TouchableOpacity onPress={() => navigation.push("Options")}>
+          <Entypo name="cog" size={32} color={color.white} />
+        </TouchableOpacity>
+      </SafeAreaView>
+      <View style={style.content}>
         <View style={style.logoContainer}>
           <Image
             style={style.logoaBackground}
@@ -93,7 +106,7 @@ export default () => {
         <ConversionInput
           text={baseCurrency}
           value="123"
-          onButtonPress={() => alert("todo!")}
+          onButtonPress={() => navigation.push("CurrencyList", {title: "Base Currency"})}
           onChangeText={(text) => console.log("text", text)}
           keyboardType="numeric"
         />
@@ -103,7 +116,7 @@ export default () => {
           keyboardType="numeric"
           text={quoteCurrency}
           value="123"
-          onButtonPress={() => alert("todo!")}
+          onButtonPress={() => navigation.push("CurrencyList", {title: "Quote Currency"})}
           editable={false}
         />
 
@@ -114,8 +127,12 @@ export default () => {
           )}`}
         </Text>
 
-        <Button text="Reverse Currency that are shown" onPress={() => alert("todo!")} />
-      </ScrollView>
+        <Button
+          text="Reverse Currency that are shown"
+          onPress={() => alert("todo!")}
+        />
+        {/* </ScrollView> */}
+      </View>
     </View>
   );
 };
