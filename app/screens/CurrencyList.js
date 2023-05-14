@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { StatusBar, FlatList, View, StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Entypo } from "@expo/vector-icons";
 import currencies from "../data/currencies.json";
 import color from "../constants/color";
 import { RowItem, RowSeparator } from "../components/row";
+import { ConversionContext } from "../util/ConversionContext";
 
 const style = StyleSheet.create({
   icons: {
@@ -18,6 +19,8 @@ const style = StyleSheet.create({
 });
 
 export default ({ navigation, route = {} }) => {
+  const { setBaseCurrency, setQuoteCurrency, baseCurrency, quoteCurrency } =
+    useContext(ConversionContext);
   const insets = useSafeAreaInsets();
   const params = route.params || {};
   return (
@@ -26,11 +29,23 @@ export default ({ navigation, route = {} }) => {
       <FlatList
         data={currencies}
         renderItem={({ item }) => {
-          const selected = params.activeCurrency === item;
+          let selected = false;
+          if (
+            (params.isBaseCurrency && item === baseCurrency) ||
+            (!params.isBaseCurrency && item === quoteCurrency)
+          )
+            selected = true;
           return (
             <RowItem
               text={item}
-              onPress={() => navigation.pop()}
+              onPress={() => {
+                if (params.isBaseCurrency) {
+                  setBaseCurrency(item);
+                } else {
+                  setQuoteCurrency(item);
+                }
+                navigation.pop();
+              }}
               rightIcon={
                 selected && (
                   <View style={style.icons}>
